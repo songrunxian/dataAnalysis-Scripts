@@ -2,7 +2,7 @@
 A personal collection of frequently used scripts for bioinformatics analysis.
 
 ## 📂 Overview
-This repository contains reusable R scripts commonly used in my daily bioinformatics workflows, including data merging, visualization, statistical analysis, and pre-processing. Each script is designed to be modular, command-line friendly, and easy to integrate into pipelines.
+This repository contains reusable code scripts commonly used in my daily bioinformatics workflows, including data merging, visualization, statistical analysis, and pre-processing. Each script is designed to be modular, command-line friendly, and easy to integrate into pipelines.
 
 ## 📜 Scripts Included
 
@@ -16,3 +16,7 @@ Performs a **full join** of multiple TSV files based on a specified column (e.g.
 **Usage example:**
 ```bash
 Rscript fullJoinFiles.R file1.tsv file2.tsv file3.tsv geneID output.tsv
+
+### 2. `extract_matching_rows_by_geneid.py`
+This script extracts all rows from a large tab-delimited file where the first-column gene IDs match those listed in `comm.txt`, and writes them to a new output file.
+
