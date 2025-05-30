@@ -1,0 +1,10 @@
+#########
+#Training a Network with XGBoost:
+
+#The polarity (Yin/Yang) predictions should strongly align with the underlying power-law distribution, ensuring that the most probable classes are accurately captured.
+
+#During training, both AUC and accuracy should be pushed as high as possible — ideally reaching above 95% — to ensure reliable classification performance.
+
+#Bayesian hyperparameter optimization must be used. Importantly, the initial parameter search must be conducted using the entire dataset to establish a strong preliminary configuration. Only after this can cross-validation (folding) methods be applied for more rigorous evaluation.
+##########
+
