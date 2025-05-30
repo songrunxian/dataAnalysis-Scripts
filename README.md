@@ -21,3 +21,5 @@ Rscript fullJoinFiles.R file1.tsv file2.tsv file3.tsv geneID output.tsv
 ### 2. `extract_matching_rows_by_geneid.py`
 This script extracts all rows from a large tab-delimited file where the first-column gene IDs match those listed in `comm.txt`, and writes them to a new output file.
 
+### 2. `How_to_train_gene_network_with_xgboost`
+This is my work Log by AI 
