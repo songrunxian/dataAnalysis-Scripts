@@ -21,5 +21,10 @@ Rscript fullJoinFiles.R file1.tsv file2.tsv file3.tsv geneID output.tsv
 ### 2. `extract_matching_rows_by_geneid.py`
 This script extracts all rows from a large tab-delimited file where the first-column gene IDs match those listed in `comm.txt`, and writes them to a new output file.
 
+### 3. `count_genes_num.py`
+how many genes are located on each chromosome, assuming:
+Each line of the file corresponds to one gene.
+The first column contains the chromosome number or ID
+
 ### 2. `How_to_train_gene_network_with_xgboost`
 This is my work Log
