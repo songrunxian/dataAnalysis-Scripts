@@ -26,5 +26,12 @@ how many genes are located on each chromosome, assuming:
 Each line of the file corresponds to one gene.
 The first column contains the chromosome number or ID
 
+### 4. `merge_fastq_side_by_side.py`
+Function:
+Scan all *_1.fq.gz files in the current directory, find the corresponding *_2.fq.gz files,
+and output each paired filename as a tab-separated line into the file paired_file_list.txt.
+Example output:
+B-Ctrl-cs_L1_1.fq.gz    B-Ctrl-cs_L1_2.fq.gz
+
 ### 2. `How_to_train_gene_network_with_xgboost`
 This is my work Log
