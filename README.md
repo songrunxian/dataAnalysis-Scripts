@@ -32,6 +32,11 @@ Scan all *_1.fq.gz files in the current directory, find the corresponding *_2.fq
 and output each paired filename as a tab-separated line into the file paired_file_list.txt.
 Example output:
 B-Ctrl-cs_L1_1.fq.gz    B-Ctrl-cs_L1_2.fq.gz
+**Usage example:**
+```bash
+python merge_fastq_side_by_side.py --pattern _1.clean.fq.gz
+```
+
 
 # How_to_train_gene_network_with_xgboost
 This is my work Log
