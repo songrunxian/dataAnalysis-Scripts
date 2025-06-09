@@ -1,17 +1,17 @@
 # dataAnalysis-Scripts
 A personal collection of frequently used scripts for bioinformatics analysis.
 
-## 📂 Overview
+## Overview
 This repository contains reusable code scripts commonly used in my daily bioinformatics workflows, including data merging, visualization, statistical analysis, and pre-processing. Each script is designed to be modular, command-line friendly, and easy to integrate into pipelines.
 
-## 📜 Scripts Included
+## Scripts Included
 
 ### 1. `fullJoinFiles.R`
 Performs a **full join** of multiple TSV files based on a specified column (e.g., `geneID`).
 
-- ✅ Input: Two or more `.tsv` files
-- ✅ Output: A merged `.tsv` file with all data retained
-- ✅ Use case: Merging gene expression data from multiple experiments
+- Input: Two or more `.tsv` files
+- Output: A merged `.tsv` file with all data retained
+- Use case: Merging gene expression data from multiple experiments
 
 **Usage example:**
 ```bash
