@@ -33,5 +33,5 @@ and output each paired filename as a tab-separated line into the file paired_fil
 Example output:
 B-Ctrl-cs_L1_1.fq.gz    B-Ctrl-cs_L1_2.fq.gz
 
-### 2. `How_to_train_gene_network_with_xgboost`
+# How_to_train_gene_network_with_xgboost
 This is my work Log
