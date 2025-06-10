@@ -37,6 +37,20 @@ B-Ctrl-cs_L1_1.fq.gz    B-Ctrl-cs_L1_2.fq.gz
 python merge_fastq_side_by_side.py --pattern _1.clean.fq.gz
 ```
 
+###5. `对自制的maf进行去重`
+peak1  chr1  100  200
+peak2  chr1  150  250  # overlap with peak1
+peak3  chr1  260  300
+↓
+peak1  chr1  100  200
+peak3  chr1  260  300
+
+###6. `提取maf的交集部分`
+peak1  chr1  100  200
+peak2  chr1  150  250
+↓
+chr1  150  200
+
 
 # How_to_train_gene_network_with_xgboost
 This is my work Log
