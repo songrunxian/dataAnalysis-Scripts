@@ -1,0 +1,31 @@
+#!/bin/bash
+
+input_saf="$1"
+output_saf="$2"
+
+if [[ ! -f "$input_saf" ]]; then
+    echo "Input SAF file not found: $input_saf"
+    exit 1
+fi
+
+{
+    # 输出表头
+    echo -e "GeneID\tChr\tStart\tEnd\tStrand"
+
+    # 排序并处理
+    tail -n +2 "$input_saf" | \
+    sort -k2,2 -k3,3n -k4,4n | \
+    awk -F'\t' 'BEGIN {OFS=FS}
+    {
+        chr=$2; start=$3; end=$4
+        if (chr == prev_chr && start <= prev_end) {
+            # 有重叠，输出交集
+            overlap_start = (start > prev_start) ? start : prev_start
+            overlap_end   = (end   < prev_end)   ? end   : prev_end
+            print "overlap_" ++i, chr, overlap_start, overlap_end, "."
+        }
+        prev_chr = chr
+        prev_start = start
+        prev_end = end
+    }'
+} > "$output_saf"
