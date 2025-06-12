@@ -37,7 +37,7 @@ B-Ctrl-cs_L1_1.fq.gz    B-Ctrl-cs_L1_2.fq.gz
 python merge_fastq_side_by_side.py --pattern _1.clean.fq.gz
 ```
 
-###5. `对自制的maf进行去重`
+### 5. `对自制的maf进行去重`
 peak1  chr1  100  200
 peak2  chr1  150  250  # overlap with peak1
 peak3  chr1  260  300
@@ -45,11 +45,14 @@ peak3  chr1  260  300
 peak1  chr1  100  200
 peak3  chr1  260  300
 
-###6. `提取maf的交集部分`
+### 6. `提取maf的交集部分`
 peak1  chr1  100  200
 peak2  chr1  150  250
 ↓
 chr1  150  200
+
+### 7. `Rscript:Differential Expression: Up vs Down`
+![1749695856989](https://github.com/user-attachments/assets/1239ee9d-03ae-4c3e-89ca-e65dbf7285e6)
 
 
 # How_to_train_gene_network_with_xgboost
