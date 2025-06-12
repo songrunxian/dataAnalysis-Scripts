@@ -1,0 +1,43 @@
+library(ggplot2)
+
+comparison_levels <- c("HZ-1-L_vs_HZ-0-L", "HZ-2-L_vs_HZ-0-L", "HZ-4-L_vs_HZ-0-L",
+                       "HZ-8-L_vs_HZ-0-L", "HZ-12-L_vs_HZ-0-L", "HZ-24-L_vs_HZ-0-L",
+                       "HZ-1-R_vs_HZ-0-R", "HZ-2-R_vs_HZ-0-R", "HZ-4-R_vs_HZ-0-R",
+                       "HZ-8-R_vs_HZ-0-R", "HZ-12-R_vs_HZ-0-R", "HZ-24-R_vs_HZ-0-R")
+
+df <- data.frame(
+  Comparison = rep(comparison_levels, each = 2),
+  Regulation = factor(rep(c("up", "down"), times = 12), levels = c("up", "down")),
+  Count = c(3453, 2612, 3691, 2737, 4739, 4805, 4540, 4237, 4646, 4287, 3266, 2909,
+            2825, 2205, 3061, 2247, 3361, 2474, 3703, 2091, 3635, 2272, 3249, 2064)
+)
+
+df$Comparison <- factor(df$Comparison, levels = comparison_levels)
+
+nature_colors <- c("up" = "#D62728", "down" = "#1F77B4")
+
+p <- ggplot(df, aes(x = Comparison, y = Count, fill = Regulation)) +
+  geom_bar(stat = "identity", position = position_dodge(width = 0.9), width = 0.7) +
+  geom_text(aes(label = Count),
+            position = position_dodge(width = 0.9),
+            vjust = -0.3, size = 3.5, fontface = "bold") +
+  scale_fill_manual(values = nature_colors) +
+  labs(title = "Differential Expression: Up vs Down",
+       x = "Comparison Group",
+       y = "Gene Count") +
+  theme_test() +
+  theme(
+    axis.text.x = element_text(angle = 45, hjust = 1, face = "bold"),
+    axis.text.y = element_text(face = "bold"),
+    axis.title.x = element_text(face = "bold"),
+    axis.title.y = element_text(face = "bold"),
+    legend.title = element_text(face = "bold"),
+    legend.text = element_text(face = "bold"),
+    plot.title = element_text(hjust = 0.5, face = "bold", size = 14)
+  ) +
+  annotate("segment",
+           x = 6.5, xend = 6.5,
+           y = 0, yend = max(df$Count) * 1.05,
+           colour = "black", size = 2, linetype = "dashed")
+
+print(p)
