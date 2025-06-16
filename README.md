@@ -51,7 +51,12 @@ peak2  chr1  150  250
 ↓
 chr1  150  200
 
-### 7. `Rscript:Differential Expression: Up vs Down`
+### 7. `max_value_finder.py` 
+直接检索到特征贡献最大的那么特征：
+![1750044512038](https://github.com/user-attachments/assets/a6f4298a-8f73-4101-863e-92adcb5aeac8)
+这个格式 直接找到
+
+### 8. `Rscript:Differential Expression: Up vs Down`
 ![1749695856989](https://github.com/user-attachments/assets/1239ee9d-03ae-4c3e-89ca-e65dbf7285e6)
 
 
