@@ -59,6 +59,9 @@ chr1  150  200
 ### 8. `Rscript:Differential Expression: Up vs Down`
 ![1749695856989](https://github.com/user-attachments/assets/1239ee9d-03ae-4c3e-89ca-e65dbf7285e6)
 
+### 9.`如何统计reads的长度分布？`
+
+
 
 # How_to_train_gene_network_with_xgboost
 This is my work Log
