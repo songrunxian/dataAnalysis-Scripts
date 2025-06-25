@@ -1,0 +1,7 @@
+1. 使用fastp对数据进行去除接头处理
+
+2. 使用seqkit将fq转化为fa
+
+3. samtools faidx file.fasta
+
+4. cut -f 2 file.fasta.fai | sort | uniq -c > length_distribution.txt
