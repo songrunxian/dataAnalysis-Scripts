@@ -61,6 +61,9 @@ chr1  150  200
 
 ### 9.`如何统计reads的长度分布？`
 
+### 10.`字典替换`
+awk 'NR==FNR {dict[$1] = $2; next} {for (i=1; i<=NF; i++) if ($i in dict) $i = dict[$i]; print}' relationship_HZ_msu.txt loc_yang.txt > loc_yated.txt
+
 
 
 # How_to_train_gene_network_with_xgboost
