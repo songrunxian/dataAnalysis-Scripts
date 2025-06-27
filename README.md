@@ -64,6 +64,35 @@ chr1  150  200
 ### 10.`字典替换`
 awk 'NR==FNR {dict[$1] = $2; next} {for (i=1; i<=NF; i++) if ($i in dict) $i = dict[$i]; print}' relationship_HZ_msu.txt loc_yang.txt > loc_yated.txt
 
+def load_mapping(dict_file):
+    mapping = {}
+    with open(dict_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) >= 2:
+                old, new = parts[0], parts[1]
+                mapping[old] = new
+    return mapping
+
+def replace_text(input_file, output_file, mapping):
+    with open(input_file, 'r', encoding='utf-8') as fin, \
+         open(output_file, 'w', encoding='utf-8') as fout:
+        for line in fin:
+            for old, new in mapping.items():
+                line = line.replace(old, new)
+            fout.write(line)
+
+if __name__ == "__main__":
+    dict_path = 'relationship_HZ_msu.txt'
+    input_path = 'all_yin'
+    output_path = 'all_yin_replaced.txt'
+
+    mapping = load_mapping(dict_path)
+    replace_text(input_path, output_path, mapping)
+
+    print("替换完成，结果保存在:", output_path)
+
+
 
 
 # How_to_train_gene_network_with_xgboost
