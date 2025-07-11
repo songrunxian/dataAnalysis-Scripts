@@ -92,6 +92,34 @@ if __name__ == "__main__":
 
     print("替换完成，结果保存在:", output_path)
 
+### 11.`偶数行变成奇数行第二列`
+# 假设输入文件名为 input.txt，输出到 output.txt
+
+output_lines = []
+
+with open("input.txt", "r") as f:
+    lines = [line.strip() for line in f]
+
+for i in range(0, len(lines), 2):
+    if i + 1 < len(lines):
+        # 偶数行存在，合并为一行
+        first_cols = lines[i].split()
+        second_line = lines[i + 1]
+        if len(first_cols) >= 1:
+            merged_line = f"{first_cols[0]}\t{second_line}"
+            output_lines.append(merged_line)
+        else:
+            # 如果奇数行是空的
+            output_lines.append(second_line)
+    else:
+        # 最后一行是奇数行且没有对应偶数行
+        output_lines.append(lines[i])
+
+# 写入输出文件
+with open("output.txt", "w") as f:
+    for line in output_lines:
+        f.write(line + "\n")
+
 
 
 
