@@ -6,6 +6,8 @@ This repository contains reusable code scripts commonly used in my daily bioinfo
 
 ## Scripts Included
 
+### 1. `extract_information_from_uniport.py`
+
 ### 1. `fullJoinFiles.R`
 Performs a **full join** of multiple TSV files based on a specified column (e.g., `geneID`).
 
