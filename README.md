@@ -122,6 +122,14 @@ with open("output.txt", "w") as f:
     for line in output_lines:
         f.write(line + "\n")
 
+### 12.`格式转换`
+<img width="944" height="616" alt="1753154518661" src="https://github.com/user-attachments/assets/b4a4d1b2-7c6c-48df-8604-b0001968070a" />
+awk '{a[$2] = (a[$2] ? a[$2] "," $1 ":" $3 : $1 ":" $3)} END {for (i in a) print i, a[i]}' OFS='\t' your_file.txt
+
+
+
+
+
 
 
 
