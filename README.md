@@ -66,31 +66,39 @@ chr1  150  200
 ### 10.`字典替换`
 awk 'NR==FNR {dict[$1] = $2; next} {for (i=1; i<=NF; i++) if ($i in dict) $i = dict[$i]; print}' relationship_HZ_msu.txt loc_yang.txt > loc_yated.txt
 
+import re
+
 def load_mapping(dict_file):
     mapping = {}
     with open(dict_file, 'r', encoding='utf-8') as f:
         for line in f:
             parts = line.strip().split()
             if len(parts) >= 2:
-                old, new = parts[0], parts[1]
-                mapping[old] = new
+                mapping[parts[0]] = parts[1]
     return mapping
 
-def replace_text(input_file, output_file, mapping):
+def compile_pattern(mapping):
+    # 构建正则模式：所有待替换词组成一个大正则（避免重复扫描）
+    escaped_keys = [re.escape(k) for k in mapping]
+    pattern = re.compile(r'\b(' + '|'.join(escaped_keys) + r')\b')
+    return pattern
+
+def replace_text_fast(input_file, output_file, mapping):
+    pattern = compile_pattern(mapping)
     with open(input_file, 'r', encoding='utf-8') as fin, \
          open(output_file, 'w', encoding='utf-8') as fout:
         for line in fin:
-            for old, new in mapping.items():
-                line = line.replace(old, new)
-            fout.write(line)
+            # 只匹配一次正则，替换匹配到的词
+            newline = pattern.sub(lambda m: mapping[m.group(0)], line)
+            fout.write(newline)
 
 if __name__ == "__main__":
-    dict_path = 'relationship_HZ_msu.txt'
-    input_path = 'all_yin'
-    output_path = 'all_yin_replaced.txt'
+    dict_path = 'osa2msu.txt'
+    input_path = 'merged_1-2-7-11.csv_first'
+    output_path = 'all_yinyin1-2-7-11_replaced.txt'
 
     mapping = load_mapping(dict_path)
-    replace_text(input_path, output_path, mapping)
+    replace_text_fast(input_path, output_path, mapping)
 
     print("替换完成，结果保存在:", output_path)
 
