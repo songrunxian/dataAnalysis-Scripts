@@ -126,7 +126,21 @@ with open("output.txt", "w") as f:
 <img width="944" height="616" alt="1753154518661" src="https://github.com/user-attachments/assets/b4a4d1b2-7c6c-48df-8604-b0001968070a" />
 awk '{a[$2] = (a[$2] ? a[$2] "," $1 ":" $3 : $1 ":" $3)} END {for (i in a) print i, a[i]}' OFS='\t' your_file.txt
 
+<img width="895" height="469" alt="1753154865674" src="https://github.com/user-attachments/assets/71f887f1-1d15-49ed-86b8-eb674d968403" />
 
+
+awk -F'\t' '
+{
+    split($2, arr, ",")    # 用逗号分割第二列为多个 trait:value
+    traits = ""
+    values = ""
+    for (i in arr) {
+        split(arr[i], pair, ":")
+        traits = traits (traits == "" ? pair[1] : "," pair[1])
+        values = values (values == "" ? pair[2] : ";" pair[2])
+    }
+    print $1, traits, values
+}' OFS='\t' 1
 
 
 
