@@ -66,41 +66,47 @@ chr1  150  200
 ### 10.`字典替换`
 awk 'NR==FNR {dict[$1] = $2; next} {for (i=1; i<=NF; i++) if ($i in dict) $i = dict[$i]; print}' relationship_HZ_msu.txt loc_yang.txt > loc_yated.txt
 
-import re
+import ahocorasick
 
-def load_mapping(dict_file):
+def build_automaton(mapping):
+    A = ahocorasick.Automaton()
+    for key, val in mapping.items():
+        A.add_word(key, (key, val))
+    A.make_automaton()
+    return A
+
+def replace_with_automaton(input_file, output_file, mapping):
+    A = build_automaton(mapping)
+    with open(input_file, 'r', encoding='utf-8') as fin, \
+         open(output_file, 'w', encoding='utf-8') as fout:
+        for line in fin:
+            result = []
+            last_index = 0
+            for end_idx, (old, new) in A.iter(line):
+                start_idx = end_idx - len(old) + 1
+                result.append(line[last_index:start_idx])
+                result.append(new)
+                last_index = end_idx + 1
+            result.append(line[last_index:])
+            fout.write(''.join(result))
+
+if __name__ == "__main__":
+    dict_path = 'osa2msu.txt'
+    input_path = 'merged_output3_6.csv_first'
+    output_path = 'all_yinjjdksj_replaced.txt'
+
+    # 加载替换表
     mapping = {}
-    with open(dict_file, 'r', encoding='utf-8') as f:
+    with open(dict_path, 'r', encoding='utf-8') as f:
         for line in f:
             parts = line.strip().split()
             if len(parts) >= 2:
                 mapping[parts[0]] = parts[1]
-    return mapping
 
-def compile_pattern(mapping):
-    # 构建正则模式：所有待替换词组成一个大正则（避免重复扫描）
-    escaped_keys = [re.escape(k) for k in mapping]
-    pattern = re.compile(r'\b(' + '|'.join(escaped_keys) + r')\b')
-    return pattern
-
-def replace_text_fast(input_file, output_file, mapping):
-    pattern = compile_pattern(mapping)
-    with open(input_file, 'r', encoding='utf-8') as fin, \
-         open(output_file, 'w', encoding='utf-8') as fout:
-        for line in fin:
-            # 只匹配一次正则，替换匹配到的词
-            newline = pattern.sub(lambda m: mapping[m.group(0)], line)
-            fout.write(newline)
-
-if __name__ == "__main__":
-    dict_path = 'osa2msu.txt'
-    input_path = 'merged_1-2-7-11.csv_first'
-    output_path = 'all_yinyin1-2-7-11_replaced.txt'
-
-    mapping = load_mapping(dict_path)
-    replace_text_fast(input_path, output_path, mapping)
-
+    # 替换
+    replace_with_automaton(input_path, output_path, mapping)
     print("替换完成，结果保存在:", output_path)
+
 
 ### 11.`偶数行变成奇数行第二列`
 # 假设输入文件名为 input.txt，输出到 output.txt
