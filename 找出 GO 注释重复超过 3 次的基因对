@@ -1,44 +1,45 @@
 import pandas as pd
-from collections import defaultdict
+from itertools import combinations
 
 # 读取文件
 file_path = 'filtered_result.txt'  # 输入文件路径
 df = pd.read_csv(file_path, sep='\t')
 
-# 用于存储每个GO注释与基因的对应关系
-go_to_genes = defaultdict(set)
+# 用于存储基因与其 GO 注释的映射
+gene_to_go = {}
 
-# 遍历每行，填充GO注释与基因的对应关系
+# 填充基因与 GO 注释的映射
 for _, row in df.iterrows():
     locus_name = row['locusName']
     go_terms = row['GO'].split()  # GO 注释是空格分隔的
-    for go_term in go_terms:
-        go_to_genes[go_term].add(locus_name)
+    gene_to_go[locus_name] = set(go_terms)  # 使用集合来存储 GO 注释，以便计算交集
 
-# 找出重复超过3次的GO注释，并记录对应的基因对
+# 存储符合条件的基因对及其共同的 GO 注释
 filtered_gene_pairs = []
 
-for go_term, genes in go_to_genes.items():
-    if len(genes) > 3:  # 只有当该GO注释对应的基因数目大于3时才保留
-        genes_list = list(genes)
-        for i in range(len(genes_list)):
-            for j in range(i + 1, len(genes_list)):
-                filtered_gene_pairs.append((genes_list[i], genes_list[j], go_term))
+# 遍历基因对，计算 GO 注释的交集
+genes_list = list(gene_to_go.keys())
+for gene1, gene2 in combinations(genes_list, 2):
+    common_go_terms = gene_to_go[gene1].intersection(gene_to_go[gene2])  # 计算 GO 注释的交集
+    if len(common_go_terms) > 3:  # 如果交集中的 GO 注释超过 3 个，保留该基因对
+        filtered_gene_pairs.append((gene1, gene2, common_go_terms))
 
 # 保存结果到文件
-output_file = 'filtered_gene_pairs.txt'
+output_file = 'filtered_gene_pairs_with_common_GO.txt'
 with open(output_file, 'w') as f:
-    f.write('Gene1\tGene2\tGO_term\n')  # 写入表头
-    for gene1, gene2, go_term in filtered_gene_pairs:
-        f.write(f'{gene1}\t{gene2}\t{go_term}\n')
+    f.write('Gene1\tGene2\tCommon_GO\n')  # 写入表头
+    for gene1, gene2, common_go_terms in filtered_gene_pairs:
+        go_terms_str = ' '.join(common_go_terms)  # 将 GO 注释转换为字符串
+        f.write(f'{gene1}\t{gene2}\t{go_terms_str}\n')
 
 print(f"Filtered gene pairs saved to {output_file}")
 
+
 #脚本目标：
-· 读取文件。
-· 为每个基因提取其 GO 注释。
-· 统计哪些 GO 注释 被多次用于不同的基因，并且其出现次数 大于 3。
-· 输出 这些基因对（即，具有相同 GO 注释的基因对），并确保每对 GO 注释的基因数目超过 3。
+需求明确化：
+· 每个基因有多个 GO 注释，这些注释是空格分隔的。
+· 你希望找到 基因对，这些基因对的 GO 注释交集数量超过 3 个，并且我们需要 保留所有交集的 GO 注释。
+· 如果基因 A 和基因 B 有超过 3 个 共同的 GO 注释，则保留这个基因对，并列出它们的 所有共同 GO 注释。
 
 
 filtered_result.txt:
