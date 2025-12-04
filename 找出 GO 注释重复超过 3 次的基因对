@@ -1,0 +1,54 @@
+import pandas as pd
+from collections import defaultdict
+
+# 读取文件
+file_path = 'filtered_result.txt'  # 输入文件路径
+df = pd.read_csv(file_path, sep='\t')
+
+# 用于存储每个GO注释与基因的对应关系
+go_to_genes = defaultdict(set)
+
+# 遍历每行，填充GO注释与基因的对应关系
+for _, row in df.iterrows():
+    locus_name = row['locusName']
+    go_terms = row['GO'].split()  # GO 注释是空格分隔的
+    for go_term in go_terms:
+        go_to_genes[go_term].add(locus_name)
+
+# 找出重复超过3次的GO注释，并记录对应的基因对
+filtered_gene_pairs = []
+
+for go_term, genes in go_to_genes.items():
+    if len(genes) > 3:  # 只有当该GO注释对应的基因数目大于3时才保留
+        genes_list = list(genes)
+        for i in range(len(genes_list)):
+            for j in range(i + 1, len(genes_list)):
+                filtered_gene_pairs.append((genes_list[i], genes_list[j], go_term))
+
+# 保存结果到文件
+output_file = 'filtered_gene_pairs.txt'
+with open(output_file, 'w') as f:
+    f.write('Gene1\tGene2\tGO_term\n')  # 写入表头
+    for gene1, gene2, go_term in filtered_gene_pairs:
+        f.write(f'{gene1}\t{gene2}\t{go_term}\n')
+
+print(f"Filtered gene pairs saved to {output_file}")
+
+#脚本目标：
+· 读取文件。
+· 为每个基因提取其 GO 注释。
+· 统计哪些 GO 注释 被多次用于不同的基因，并且其出现次数 大于 3。
+· 输出 这些基因对（即，具有相同 GO 注释的基因对），并确保每对 GO 注释的基因数目超过 3。
+
+
+filtered_result.txt:
+locusName       GO
+Glyma.01G000248 GO:0030976
+Glyma.01G000400 GO:0008270
+Glyma.01G000600 GO:0008270
+Glyma.01G001000 GO:0001671 GO:0051087
+Glyma.01G001100 GO:0016020
+Glyma.01G001300 GO:0003824
+Glyma.01G001500 GO:0003824
+Glyma.01G001600 GO:0005515 GO:0006364 GO:0032040
+Glyma.01G001800 GO:0004672 GO:0004713 GO:0005515 GO:0005524 GO:0006468
